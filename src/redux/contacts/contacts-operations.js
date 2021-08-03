@@ -30,22 +30,16 @@ const fetchContact = () => async (dispatch) => {
 
 const editContact =
   ({ id, name, number }) =>
-  async (dispatch) => {
+  (dispatch) => {
     dispatch(editContactRequest());
-    console.log(id, name, number);
-    try {
-      const { data } = await axios.patch(`/contacts/${id}`, {
-        name: name,
-        number: number,
-      });
-
-      const newId = shortid.generate();
-      dispatch(editContactSuccess({ id: newId, name, number }));
-      dispatch(deleteContactSuccess(id));
-    } catch (error) {
-      dispatch(editContactError(error.message));
-    }
-  };
+    const contact = { name, number };
+    axios
+      .patch(`/contacts/${id}`, contact)
+      .then(({ data }) => {
+        dispatch(editContactSuccess(data));
+      })
+      .catch((error) => dispatch(editContactError(error.message)));
+    
 const addContact =
   ({ name, number }) =>
   (dispatch) => {
