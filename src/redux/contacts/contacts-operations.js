@@ -1,5 +1,5 @@
 import axios from "axios";
-import shortid from "shortid";
+
 import {
   addContactRequest,
   addContactSuccess,
@@ -39,7 +39,8 @@ const editContact =
         dispatch(editContactSuccess(data));
       })
       .catch((error) => dispatch(editContactError(error.message)));
-    
+  };
+
 const addContact =
   ({ name, number }) =>
   (dispatch) => {
